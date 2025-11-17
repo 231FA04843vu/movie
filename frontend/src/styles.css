@@ -1,0 +1,564 @@
+/* frontend/src/styles.css - Netflix-like dark theme */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap');
+
+:root{
+  --bg:#0b0b0d;
+  --surface:#0f0f12;
+  --muted:#8a8f98;
+  --accent:#e50914; /* Netflix red */
+  --card-radius:10px;
+  --gap:1rem;
+}
+
+*{box-sizing:border-box}
+html,body,#root{height:100%}
+body{
+  margin:0;
+  font-family:Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+  background: linear-gradient(180deg, #040405 0%, var(--bg) 100%);
+  color:#ffffff;
+  -webkit-font-smoothing:antialiased;
+  -moz-osx-font-smoothing:grayscale;
+}
+
+/* Header */
+.app-header{
+  display:flex;
+  align-items:center;
+  gap:1rem;
+  padding:18px 28px;
+  background: linear-gradient(90deg, rgba(0,0,0,0.6), transparent);
+  position:sticky;
+  top:0;
+  z-index:40;
+  backdrop-filter: blur(6px);
+  border-bottom: 1px solid rgba(255,255,255,0.03);
+}
+.brand{
+  font-weight:800;
+  font-size:26px;
+  color:var(--accent);
+  letter-spacing:1px;
+}
+.app-header input{
+  flex:1;
+  max-width:900px;
+  padding:10px 14px;
+  border-radius:8px;
+  border: none;
+  background:#121214;
+  color:#eee;
+  outline: none;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.6) inset;
+  border:1px solid rgba(255,255,255,0.03);
+}
+
+/* Hero */
+.hero{
+  display:flex;
+  align-items:flex-end;
+  gap:20px;
+  padding:36px 40px;
+  min-height: 340px;
+  background: linear-gradient(180deg, rgba(255,255,255,0.03), transparent);
+  margin-bottom: 8px;
+}
+.hero-poster{
+  width:260px;
+  min-width:200px;
+  border-radius:12px;
+  overflow:hidden;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.7);
+}
+.hero-content{
+  flex:1;
+  padding-bottom:10px;
+}
+.hero-title{
+  font-size:36px;
+  margin:0 0 12px 0;
+  letter-spacing: -0.5px;
+}
+.hero-desc{
+  color:var(--muted);
+  max-width:70%;
+  line-height:1.5;
+  margin-bottom:18px;
+}
+.hero-actions button{
+  padding:10px 16px;
+  border-radius:8px;
+  border:none;
+  font-weight:700;
+  margin-right:10px;
+  cursor:pointer;
+}
+.btn-play { background:var(--accent); color:#fff }
+.btn-info { background: rgba(255,255,255,0.08); color:#fff }
+
+/* Section title */
+.section{
+  padding:18px 40px;
+}
+.section h2{
+  margin:0 0 10px 0;
+  font-size:20px;
+  letter-spacing:0.2px;
+}
+
+/* Poster carousel (horizontal) */
+.carousel{
+  display:flex;
+  gap:var(--gap);
+  overflow-x:auto;
+  padding:12px 0 28px 0;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+}
+.carousel::-webkit-scrollbar{ height:8px }
+.carousel::-webkit-scrollbar-thumb{ background:rgba(255,255,255,0.06); border-radius:8px }
+
+.carousel-item{
+  min-width:160px;
+  scroll-snap-align:start;
+}
+
+/* Card */
+.card{
+  background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(0,0,0,0.03));
+  border-radius: var(--card-radius);
+  overflow:hidden;
+  transition: transform 250ms cubic-bezier(.2,.8,.2,1), box-shadow 250ms;
+  cursor:pointer;
+}
+.card:hover{ transform: translateY(-8px) scale(1.03); box-shadow: 0 30px 70px rgba(0,0,0,0.6) }
+.poster{ position:relative; width:100%; padding-top:150%; background:#222; }
+.poster img{ position:absolute; inset:0; width:100%; height:100%; object-fit:cover; display:block; }
+.rating-badge{
+  position:absolute; top:8px; left:8px;
+  background: rgba(0,0,0,0.6);
+  color:#fff; padding:4px 7px; border-radius:6px; font-weight:700; font-size:12px;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.45);
+}
+
+/* Hover overlay for details */
+.overlay{
+  position:absolute; left:0; right:0; bottom:0;
+  background: linear-gradient(180deg, transparent, rgba(5,5,5,0.85));
+  color:#fff; padding:10px;
+  transform: translateY(40%);
+  opacity:0;
+  transition: opacity 220ms, transform 220ms;
+}
+.card:hover .overlay{ transform: translateY(0); opacity:1 }
+
+.card-body{ padding:10px; }
+.card-title{ font-size:14px; margin:0 0 6px 0; font-weight:700 }
+.card-meta{ font-size:12px; color:var(--muted) }
+
+/* Filters row */
+.filters{
+  display:flex; gap:.5rem; padding:12px 40px; align-items:center;
+  border-top: 1px solid rgba(255,255,255,0.02);
+  border-bottom: 1px solid rgba(255,255,255,0.02);
+  background: linear-gradient(180deg, rgba(255,255,255,0.01), transparent);
+}
+.chip{
+  padding:.5rem .8rem; border-radius:999px; background: rgba(255,255,255,0.03);
+  border:1px solid rgba(255,255,255,0.04); color:#ddd; cursor:pointer; font-weight:600;
+}
+.chip[aria-pressed="true"]{
+  background: var(--accent); color:#fff; border-color: transparent;
+}
+
+/* Responsive adjustments */
+@media (max-width:900px){
+  .hero{ flex-direction:column; align-items:flex-start }
+  .hero-poster{ width:200px }
+  .hero-desc{ max-width:100% }
+  .poster-grid{ grid-template-columns: repeat(2,1fr) }
+}
+/* Carousel arrows */
+.carousel-container { position: relative; }
+.carousel {
+  display:flex;
+  gap:var(--gap);
+  overflow-x:auto;
+  padding:12px 0 28px 0;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+  scroll-behavior: smooth;
+}
+.carousel-item { min-width:200px; scroll-snap-align:start; }
+
+/* Arrow button common */
+.carousel-arrow {
+  position:absolute;
+  top: -6px;
+  width:44px;
+  height:44px;
+  border-radius:22px;
+  background: rgba(0,0,0,0.6);
+  color:#fff;
+  border: 1px solid rgba(255,255,255,0.06);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:28px;
+  z-index:50;
+  cursor:pointer;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.6);
+  transition: transform .12s ease;
+}
+.carousel-arrow:hover{ transform: scale(1.06) }
+.carousel-arrow.left { left: 18px }
+.carousel-arrow.right { right: 18px }
+
+/* Hide arrows on small screens if desired */
+@media (max-width:600px){
+  .carousel-arrow { display:none !important }
+  .carousel-item { min-width:140px }
+}
+/* add to styles.css */
+.chip { padding:8px 14px; border-radius:20px; background:#121212; border:1px solid rgba(255,255,255,0.06); color:#fff; cursor:pointer }
+.chip-active { background:#e50914; color:#fff; box-shadow: 0 6px 18px rgba(0,0,0,0.6) }
+/* ---------- Hero strip (continuous scrolling posters) ---------- */
+.hero-rect {
+  height: 220px;                 /* adjust height as needed */
+  padding: 20px 0;
+  background: linear-gradient(180deg, rgba(0,0,0,0.7), rgba(0,0,0,0.85));
+  overflow: hidden;
+  position: relative;
+}
+
+/* wrapper ensures the strip is clipped within the rect */
+.hero-strip-wrapper {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  box-sizing: border-box;
+}
+
+/* the moving strip: wide flex row duplicated for loop */
+.hero-strip {
+  display:flex;
+  gap: 18px;
+  align-items:center;
+  height:100%;
+  /* animation: translateX leftwards */
+  animation: hero-scroll 28s linear infinite;
+  will-change: transform;
+  padding-left: 8px;
+  padding-right: 8px;
+}
+
+/* Each poster tile */
+.hero-strip-item {
+  flex: 0 0 auto;
+  width: 160px;                  /* poster tile width */
+  height: calc(100% - 26px);     /* maintain margin inside rect */
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 12px 30px rgba(0,0,0,0.7);
+  background: #0b0b0d;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+
+/* Image fills tile */
+.hero-strip-item img {
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  display:block;
+  transform: translateZ(0);
+}
+
+/* Pause animation when hovered (nice UX) */
+.hero-strip-wrapper:hover .hero-strip,
+.hero-strip:focus {
+  animation-play-state: paused;
+}
+
+/* keyframes: move left by half the full strip width (we duplicated items) */
+@keyframes hero-scroll {
+  0%   { transform: translateX(0); }
+  100% { transform: translateX(-50%); } /* -50% works because we duplicated content */
+}
+
+/* slightly smaller on very small screens */
+@media (max-width: 900px) {
+  .hero-rect { height: 160px }
+  .hero-strip-item { width: 120px }
+}
+/* Hero banner — full cover */
+
+/* ---------- Auth form (Netflix-like) ---------- */
+.auth-form {
+  display:flex;
+  flex-direction:column;
+  gap:12px;
+  background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(0,0,0,0.2));
+  padding:22px;
+  border-radius:10px;
+  border:1px solid rgba(255,255,255,0.04);
+  box-shadow: 0 20px 60px rgba(0,0,0,0.7);
+}
+.auth-form h3{ margin:0 0 2px 0; font-size:20px; font-weight:700 }
+.auth-err{ background: rgba(229,9,20,0.12); color: var(--accent); padding:8px 10px; border-radius:8px; font-weight:600 }
+.auth-form input{ width:100%; padding:12px 14px; border-radius:8px; border:1px solid rgba(255,255,255,0.06); background:#0b0b0d; color:#fff; outline:none }
+.auth-form input::placeholder{ color: #666 }
+.auth-form button{ padding:12px 14px; border-radius:8px; border:none; font-weight:700; cursor:pointer }
+.auth-form button[type="submit"]{ background: var(--accent); color:#fff }
+.auth-form button[disabled]{ opacity:0.6; cursor:not-allowed }
+
+/* small helper row for links */
+.auth-help{ display:flex; justify-content:space-between; align-items:center; gap:8px; color:var(--muted); font-size:13px }
+.auth-help a{ color: #dcdcdc; text-decoration:none }
+.auth-help a:hover{ text-decoration:underline }
+
+/* responsive modal inner width */
+@media (max-width:420px){
+  .auth-form{ padding:16px }
+}
+
+/* Auth modal container (overlay) */
+.auth-modal{
+  position: fixed;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0,0,0,0.92);
+  backdrop-filter: blur(4px);
+  z-index: 10000;
+  padding: 20px;
+}
+.auth-modal__inner{
+  width: 360px;
+  max-width: 100%;
+  background: #0b0b0d;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.75);
+  border: 1px solid rgba(255,255,255,0.04);
+}
+.auth-modal__close-wrap{ display:flex; justify-content:flex-end }
+.auth-modal__close{
+  background: transparent;
+  border: none;
+  color: #999;
+  font-size: 22px;
+  line-height: 1;
+  cursor: pointer;
+}
+
+/* Ensure auth-form inside modal has priority */
+.auth-modal .auth-form{ background: transparent; box-shadow: none; padding: 0; border-radius: 0 }
+.auth-modal .auth-form input{ background: #0b0b0d; border:1px solid rgba(255,255,255,0.04) }
+.auth-modal .auth-form button[type="submit"]{ width:100% }
+
+/* background image that covers entire banner */
+.hero-banner__bg {
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center center;
+  filter: brightness(0.45) contrast(1.05);
+  transform: scale(1.02);
+  transition: transform 0.6s ease, filter 0.4s ease;
+  cursor: pointer;
+}
+
+/* Slight parallax-like hover zoom (desktop only) */
+.hero-banner:hover .hero-banner__bg {
+  transform: scale(1.06);
+  filter: brightness(0.5) contrast(1.05);
+}
+
+/* overlay holds content with gradient to ensure text legibility */
+.hero-banner__overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  padding: 28px 40px;
+  gap: 18px;
+  box-sizing: border-box;
+  pointer-events: none; /* allow bg click fallback; inner interactive items set pointer-events:auto */
+}
+
+/* content area (left) */
+.hero-banner__content {
+  max-width: 62%;
+  color: #fff;
+  pointer-events: auto;
+}
+
+.hero-banner__title {
+  margin: 0 0 8px 0;
+  font-size: 44px;
+  line-height: 1.02;
+  font-weight: 800;
+  color: #fff;
+  text-shadow: 0 6px 20px rgba(0,0,0,0.7);
+}
+
+.hero-banner__desc {
+  margin: 6px 0 18px 0;
+  color: #ddd;
+  max-height: 72px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-size: 15px;
+}
+
+/* actions must be clickable */
+.hero-banner__actions { display:flex; gap:12px; pointer-events: auto; }
+.btn { padding: 10px 16px; border-radius: 8px; border: none; cursor: pointer; font-weight: 700; }
+.btn-primary { background: #e50914; color: #fff; box-shadow: 0 8px 22px rgba(0,0,0,0.5); }
+.btn-ghost { background: rgba(255,255,255,0.08); color: #fff; }
+
+/* small poster tile on the right */
+.hero-banner__poster {
+  width: 220px;
+  height: 320px;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 18px 60px rgba(0,0,0,0.7);
+  flex-shrink: 0;
+  pointer-events: auto;
+  cursor: pointer;
+  background: linear-gradient(180deg, rgba(0,0,0,0.25), rgba(0,0,0,0.45));
+}
+
+.hero-banner__poster img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display:block;
+}
+
+/* Responsive tweaks */
+@media (max-width: 1100px) {
+  .hero-banner { height: 260px; }
+  .hero-banner__title { font-size: 34px; }
+  .hero-banner__content { max-width: 62%; }
+  .hero-banner__poster { width: 180px; height: 260px; }
+}
+
+@media (max-width: 720px) {
+  .hero-banner { height: 220px; padding: 12px 14px; }
+  .hero-banner__overlay { flex-direction: column; align-items:flex-start; padding: 14px; gap:12px; }
+  .hero-banner__content { max-width: 100%; }
+  .hero-banner__poster { width: 110px; height: 160px; order: 2; align-self:flex-end; }
+  .hero-banner__title { font-size: 26px; }
+  .hero-banner__desc { display:none; }
+}
+/* ---------- Hero banner (full cover) ---------- */
+.hero-banner {
+  position: relative;
+  width: 100%;
+  height: 320px; /* adjust height if you want bigger banner */
+  overflow: hidden;
+  margin-bottom: 18px;
+  background: linear-gradient(180deg, rgba(0,0,0,0.65), rgba(0,0,0,0.85));
+}
+
+.hero-banner__bg {
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center center;
+  filter: brightness(0.45) contrast(1.05);
+  transform: scale(1.02);
+  transition: transform 0.6s ease, filter 0.4s ease;
+  cursor: pointer;
+}
+
+/* hover zoom */
+.hero-banner:hover .hero-banner__bg {
+  transform: scale(1.06);
+  filter: brightness(0.5) contrast(1.05);
+}
+
+/* overlay contains the content */
+.hero-banner__overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 28px 40px;
+  gap: 18px;
+  box-sizing: border-box;
+}
+
+/* left content */
+.hero-banner__content {
+  max-width: 62%;
+  color: #fff;
+  cursor: pointer;
+}
+
+.hero-banner__title {
+  margin: 0 0 8px 0;
+  font-size: 44px;
+  line-height: 1.02;
+  font-weight: 800;
+  color: #fff;
+  text-shadow: 0 6px 20px rgba(0,0,0,0.7);
+}
+
+.hero-banner__desc {
+  margin: 6px 0 18px 0;
+  color: #ddd;
+  max-height: 72px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-size: 15px;
+}
+
+/* actions */
+.hero-banner__actions { display:flex; gap:12px; }
+.btn { padding: 10px 16px; border-radius: 8px; border: none; cursor: pointer; font-weight: 700; }
+.btn-primary { background: #e50914; color: #fff; box-shadow: 0 8px 22px rgba(0,0,0,0.5); }
+.btn-ghost { background: rgba(255,255,255,0.08); color: #fff; }
+
+/* right poster tile */
+.hero-banner__poster {
+  width: 220px;
+  height: 320px;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 18px 60px rgba(0,0,0,0.7);
+  flex-shrink: 0;
+  cursor: pointer;
+  background: linear-gradient(180deg, rgba(0,0,0,0.25), rgba(0,0,0,0.45));
+}
+
+.hero-banner__poster img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display:block;
+}
+
+/* Responsive tweaks */
+@media (max-width: 1100px) {
+  .hero-banner { height: 260px; }
+  .hero-banner__title { font-size: 34px; }
+  .hero-banner__poster { width: 180px; height: 260px; }
+}
+
+@media (max-width: 720px) {
+  .hero-banner { height: 220px; padding: 12px 14px; }
+  .hero-banner__overlay { flex-direction: column; align-items:flex-start; padding: 14px; gap:12px; }
+  .hero-banner__content { max-width: 100%; }
+  .hero-banner__poster { width: 110px; height: 160px; order: 2; align-self:flex-end; }
+  .hero-banner__title { font-size: 26px; }
+  .hero-banner__desc { display:none; }
+}
